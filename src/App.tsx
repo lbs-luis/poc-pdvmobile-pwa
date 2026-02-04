@@ -1,14 +1,15 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
+import { AppLayout } from './layouts/app.layout'
+import CartScreen from './screens/cart'
 import Root from './screens/root'
-import Home from './screens/home'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Root />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route index element={<Root to="/cart" />} />
+      <Route element={<AppLayout />}>
+        <Route path="/cart" element={<CartScreen />} />
+      </Route>
+    </Routes>
   )
 }

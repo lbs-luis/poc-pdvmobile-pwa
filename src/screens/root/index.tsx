@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface BeforeInstallPromptEvent extends Event {
@@ -10,11 +10,15 @@ interface NavigatorStandalone extends Navigator {
   standalone?: boolean
 }
 
-export default function RootPath() {
+export default function RootPath({ to }: { to: string }) {
   const navigate = useNavigate()
   const [installPrompt, setInstallPrompt] =
     useState<BeforeInstallPromptEvent | null>(null)
   const [isCheckingInstall, setIsCheckingInstall] = useState(true)
+
+  const navigateTo = useCallback(() => {
+    navigate({ pathname: to }, { replace: true })
+  }, [navigate, to])
 
   useEffect(() => {
     const isStandalone =
@@ -23,7 +27,7 @@ export default function RootPath() {
       document.referrer.includes('android-app://')
 
     if (isStandalone) {
-      navigate('/home')
+      navigateTo()
       return
     }
 
@@ -37,7 +41,7 @@ export default function RootPath() {
 
     const timeout = setTimeout(() => {
       if (!installPrompt) {
-        navigate('/home')
+        navigateTo()
       }
     }, 1500)
 
@@ -45,7 +49,7 @@ export default function RootPath() {
       window.removeEventListener('beforeinstallprompt', handler)
       clearTimeout(timeout)
     }
-  }, [navigate, installPrompt])
+  }, [navigate, installPrompt, navigateTo])
 
   const handleInstall = async () => {
     if (!installPrompt) return
@@ -54,13 +58,13 @@ export default function RootPath() {
     const { outcome } = await installPrompt.userChoice
 
     if (outcome === 'accepted') {
-      navigate('/home')
+      navigateTo()
     }
   }
 
   if (isCheckingInstall && !installPrompt) {
     return (
-      <div className="flex h-dvh w-screen items-center justify-center">
+      <div className="flex h-dvh w-screen items-center justify-center bg-black">
         <p className="size-fit text-white">Loading...</p>
       </div>
     )
@@ -76,7 +80,7 @@ export default function RootPath() {
           Install App
         </button>
         <button
-          onClick={() => navigate('/home')}
+          onClick={() => navigateTo()}
           className="text-sm text-gray-400 underline"
         >
           Continue in browser
