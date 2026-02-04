@@ -8,8 +8,8 @@ const manifest: Partial<ManifestOptions> = {
     'Poc do pdv mobile usando PWA para instalar nativamente no dispositivo',
   icons: [
     {
-      src: '/pwa-512x512.png',
-      sizes: '512x512',
+      src: '/favicon.png',
+      sizes: '48x48',
       type: 'image/png',
     },
     {
@@ -17,23 +17,28 @@ const manifest: Partial<ManifestOptions> = {
       sizes: '192x192',
       type: 'image/png',
     },
-  ],
-  screenshots: [
     {
       src: '/pwa-512x512.png',
       sizes: '512x512',
-      label: 'PDV Mobile screenshot',
+      type: 'image/png',
+    },
+  ],
+  screenshots: [
+    {
+      src: '/pwa-screenshot.png',
+      sizes: '969x338',
+      label: 'Figma flux screenshot',
       platform: 'wide',
     },
     {
       src: '/pwa-512x512.png',
       sizes: '512x512',
-      label: 'PDV Mobile screenshot',
+      label: 'PDV Mobile logo',
     },
   ],
   start_url: '/',
-  theme_color: '#4F46E5',
-  background_color: '#4F46E5',
+  theme_color: '#cee085',
+  background_color: '#cee085',
   display_override: ['fullscreen', 'minimal-ui'],
   display: 'standalone',
 }
