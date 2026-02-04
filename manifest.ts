@@ -4,8 +4,7 @@ const manifest: Partial<ManifestOptions> = {
   lang: 'pt-BR',
   name: 'PDV Mobile PWA',
   short_name: 'PDV Mobile PWA',
-  description:
-    'Poc do pdv mobile usando PWA para instalar nativamente no dispositivo',
+  description: 'Aplicação PWA representando o PDV Mobile',
   icons: [
     {
       src: '/favicon.png',
@@ -25,15 +24,15 @@ const manifest: Partial<ManifestOptions> = {
   ],
   screenshots: [
     {
-      src: '/pwa-screenshot.png',
-      sizes: '969x338',
+      src: '/screenshot-742x422',
+      sizes: '742x422',
       label: 'Figma flux screenshot',
       platform: 'wide',
     },
     {
-      src: '/pwa-512x512.png',
+      src: '/screenshot-512x512.png',
       sizes: '512x512',
-      label: 'PDV Mobile logo',
+      label: 'Figma flux screenshot',
     },
   ],
   start_url: '/',
