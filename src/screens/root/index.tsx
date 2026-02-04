@@ -60,14 +60,14 @@ export default function RootPath() {
 
   if (isCheckingInstall && !installPrompt) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black">
-        <p className="text-white">Loading...</p>
+      <div className="flex h-dvh w-screen items-center justify-center">
+        <p className="size-fit text-white">Loading...</p>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black">
+    <div className="flex h-dvh w-screen items-center justify-center bg-black">
       <div className="flex flex-col items-center gap-4">
         <button
           onClick={handleInstall}
