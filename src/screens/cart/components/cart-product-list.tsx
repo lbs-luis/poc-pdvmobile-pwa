@@ -1,8 +1,9 @@
 import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/cn'
+import { QuantityButton } from './quantity-button'
 
 const CartProductListHeader = () => (
-  <div className="grid h-10 w-full grid-cols-[2fr_1fr_1fr] items-center gap-4 px-4 py-2">
+  <div className="grid h-10 w-full grid-cols-[2fr_1fr_7rem] items-center gap-4 px-4 py-2">
     <span className="size-fit text-sm font-semibold text-neutral-800 capitalize">
       Produto
     </span>
@@ -17,12 +18,12 @@ const CartProductListHeader = () => (
 
 const CartProductListItem = () => {
   const semibold_text = 'text-sm font-medium text-neutral-800'
-  const normal_text = 'text-sm font-normal text-neutral-500'
+  const normal_text = 'text-xs font-normal text-neutral-500'
   return (
-    <div className="grid w-full grid-cols-[2fr_1fr_1fr] gap-4 py-2">
+    <div className="grid w-full grid-cols-[2fr_1fr_7rem] gap-4 py-2">
       <div className="flex w-full flex-col gap-1.5">
         <span className={cn(semibold_text)}>Trufa tradicional 30g</span>
-        <span className={cn(normal_text, 'flex gap-2')}>
+        <span className={cn(normal_text, 'flex gap-1')}>
           <p>Cod. 00909</p>
           <p>EAN 2004489</p>
         </span>
@@ -31,7 +32,7 @@ const CartProductListItem = () => {
         <span className={cn(semibold_text)}>9,99</span>
         <span className={cn(normal_text)}>Total 18,99</span>
       </div>
-      <div className="flex size-full bg-black" />
+      <QuantityButton className="m-auto" />
     </div>
   )
 }

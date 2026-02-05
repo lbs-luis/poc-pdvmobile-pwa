@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Mobile-first PWA optimizations */
 * {
@@ -13,7 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -30,7 +31,9 @@ body {
 }
 
 /* Allow text selection for specific elements */
-input, textarea, [contenteditable] {
+input,
+textarea,
+[contenteditable] {
   -webkit-user-select: text;
   user-select: text;
 }
@@ -55,7 +58,14 @@ input, textarea, [contenteditable] {
 }
 
 /* Improve touch target sizes (minimum 44x44px for accessibility) */
-button, a, [role="button"] {
+button,
+a,
+[role='button'] {
   min-height: 44px;
   min-width: 44px;
+}
+@utility transition-left {
+  transition-property: left;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
