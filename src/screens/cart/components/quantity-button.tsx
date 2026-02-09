@@ -1,12 +1,22 @@
 import { ChevronRight, Trash } from 'lucide-react'
-import { useState, type ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/cn'
+import { useCartStore } from '../../../stores/cart-store'
+import type { CartItem } from '../../../stores/cart-store'
 
-export function QuantityButton({ className }: ComponentProps<'button'>) {
-  const [amount, setAmount] = useState(1)
+interface QuantityButtonProps extends ComponentProps<'button'> {
+  item: CartItem
+}
+
+export function QuantityButton({ className, item }: QuantityButtonProps) {
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
 
   function handleSubtract() {
-    if (amount > 0) setAmount(amount - 1)
+    updateQuantity(item.product.id, item.quantity - 1)
+  }
+
+  function handleAdd() {
+    updateQuantity(item.product.id, item.quantity + 1)
   }
 
   return (
@@ -17,11 +27,11 @@ export function QuantityButton({ className }: ComponentProps<'button'>) {
       )}
     >
       <Trash size={16} className="mx-auto" onClick={handleSubtract} />
-      <span className="mx-auto size-fit">{amount}</span>
+      <span className="mx-auto size-fit">{item.quantity}</span>
       <ChevronRight
         size={16}
         className="mx-auto"
-        onClick={() => setAmount(amount + 1)}
+        onClick={handleAdd}
       />
     </button>
   )

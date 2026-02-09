@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react'
 import { cn } from '../../../../lib/cn'
 import { ProductMeshButton } from './product-mesh-button'
+import { products } from '../../../../database'
 
 export function ProductMesh({ className }: ComponentProps<'div'>) {
   return (
@@ -10,8 +11,8 @@ export function ProductMesh({ className }: ComponentProps<'div'>) {
         className,
       )}
     >
-      {Array.from({ length: 20 }).map((_, i) => (
-        <ProductMeshButton key={`mesh-button-${i}`} />
+      {products.map((product) => (
+        <ProductMeshButton key={product.id} product={product} />
       ))}
     </div>
   )
