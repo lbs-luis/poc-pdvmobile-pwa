@@ -1,7 +1,7 @@
 import { ChevronRight, Trash } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/cn'
-import { useCartStore } from '../../../stores/cart-store'
+import { useCart } from '../../../hooks/useCart'
 import type { CartItem } from '../../../stores/cart-store'
 
 interface QuantityButtonProps extends ComponentProps<'button'> {
@@ -9,7 +9,7 @@ interface QuantityButtonProps extends ComponentProps<'button'> {
 }
 
 export function QuantityButton({ className, item }: QuantityButtonProps) {
-  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const { updateQuantity } = useCart()
 
   function handleSubtract() {
     updateQuantity(item.product.id, item.quantity - 1)

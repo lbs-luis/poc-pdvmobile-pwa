@@ -1,7 +1,7 @@
 import type { ComponentProps } from 'react'
 import { cn } from '../../../../lib/cn'
 import type { CartItem } from '../../../../stores/cart-store'
-import { useCartStore } from '../../../../stores/cart-store'
+import { useCart } from '../../../../hooks/useCart'
 import { QuantityButton } from '../quantity-button'
 
 const CartProductListHeader = () => (
@@ -45,7 +45,7 @@ const CartProductListItem = ({ item }: { item: CartItem }) => {
 }
 
 export function CartProductList({ className }: ComponentProps<'div'>) {
-  const items = useCartStore((state) => state.items)
+  const { items } = useCart()
 
   return (
     <div className={cn('flex min-h-0 flex-1 flex-col', className)}>

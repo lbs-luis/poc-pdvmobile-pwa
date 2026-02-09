@@ -1,13 +1,13 @@
 import { Plus } from 'lucide-react'
 import type { Product } from '../../../../database'
-import { useCartStore } from '../../../../stores/cart-store'
+import { useCart } from '../../../../hooks/useCart'
 
 interface ProductMeshButtonProps {
   product: Product
 }
 
 export function ProductMeshButton({ product }: ProductMeshButtonProps) {
-  const addProduct = useCartStore((state) => state.addProduct)
+  const { addProduct } = useCart()
 
   return (
     <div className="flex h-26 w-full flex-col rounded-md bg-neutral-200 p-2">
@@ -19,7 +19,7 @@ export function ProductMeshButton({ product }: ProductMeshButtonProps) {
           {product.price.toFixed(2).replace('.', ',')}
         </span>
         <button 
-          className="flex size-7 items-center justify-center rounded-full bg-white p-0 text-neutral-800"
+          className="flex size-7 items-center justify-center rounded-full bg-white p-0 text-neutral-800 transition-transform duration-75 ease-out active:scale-90"
           onClick={() => addProduct(product)}
         >
           <Plus size={14} strokeWidth={2} />

@@ -1,7 +1,7 @@
 import { ChevronRight } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/cn'
-import { useCartStore } from '../../../stores/cart-store'
+import { useCart } from '../../../hooks/useCart'
 
 interface FloatingCartButtonProps extends ComponentProps<'button'> {
   totalItems?: number
@@ -9,8 +9,7 @@ interface FloatingCartButtonProps extends ComponentProps<'button'> {
 }
 
 export function FloatingCartButton({ className, totalItems, totalPrice }: FloatingCartButtonProps) {
-  const storeTotalItems = useCartStore((state) => state.getTotalItems())
-  const storeTotalPrice = useCartStore((state) => state.getTotalPrice())
+  const { totalItems: storeTotalItems, totalPrice: storeTotalPrice } = useCart()
   
   const items = totalItems ?? storeTotalItems
   const price = totalPrice ?? storeTotalPrice
