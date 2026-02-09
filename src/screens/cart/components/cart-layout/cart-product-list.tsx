@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
-import { cn } from '../../../lib/cn'
-import { QuantityButton } from './quantity-button'
+import { cn } from '../../../../lib/cn'
+import { QuantityButton } from '../quantity-button'
 
 const CartProductListHeader = () => (
   <div className="grid h-10 w-full grid-cols-[2fr_1fr_7rem] items-center gap-4 px-4 py-2">

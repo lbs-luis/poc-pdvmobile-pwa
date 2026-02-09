@@ -57,15 +57,28 @@ textarea,
   outline: none;
 }
 
-/* Improve touch target sizes (minimum 44x44px for accessibility) */
-button,
-a,
-[role='button'] {
-  min-height: 44px;
-  min-width: 44px;
-}
 @utility transition-left {
   transition-property: left;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+@utility scroll-invisible {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE and Edge */
+  -ms-overflow-style: none;
+
+  /* Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility gradient-fade-white {
+  background: linear-gradient(
+    to top,
+    white 15%,
+    transparent 70%,
+    transparent 100%
+  );
 }
