@@ -1,8 +1,8 @@
-import { Plus } from 'lucide-react'
+import { ScanBarcode } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/cn'
 
-export function FloatingAddButton({
+export function FloatingScannerButton({
   className,
   onClick,
 }: ComponentProps<'button'>) {
@@ -14,7 +14,7 @@ export function FloatingAddButton({
         className,
       )}
     >
-      <Plus size={24} className="pointer-events-none shrink-0" />
+      <ScanBarcode size={24} className="pointer-events-none shrink-0" />
     </button>
   )
 }

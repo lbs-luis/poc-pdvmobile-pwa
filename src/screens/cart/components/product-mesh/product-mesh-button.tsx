@@ -1,30 +1,43 @@
-import { Plus } from 'lucide-react'
 import type { Product } from '../../../../database'
-import { useCart } from '../../../../hooks/useCart'
+import { useAmount } from '../../../../contexts/amount-context'
+import { usePreselectionStore } from '../../../../stores/preselection-store'
 
 interface ProductMeshButtonProps {
   product: Product
 }
 
 export function ProductMeshButton({ product }: ProductMeshButtonProps) {
-  const { addProduct } = useCart()
+  const { currentAmount } = useAmount()
+  const { addItem, removeItem, items } = usePreselectionStore()
+
+  const isSelected = items.some(item => item.product.id === product.id)
+  const selectedItem = items.find(item => item.product.id === product.id)
+
+  const handleClick = () => {
+    if (isSelected) {
+      removeItem(product.id)
+    } else {
+      addItem(product, currentAmount)
+    }
+  }
 
   return (
-    <div className="flex h-26 w-full flex-col rounded-md bg-neutral-200 p-2">
-      <span className="my-auto size-fit text-sm font-normal text-neutral-800">
+    <div
+      className={`flex h-26 w-full flex-col items-center justify-center rounded-md p-4 transition duration-150 ease-in-out active:scale-95 ${
+        isSelected 
+          ? 'bg-neutral-600 text-white' 
+          : 'bg-neutral-200 text-neutral-800 active:bg-neutral-100'
+      }`}
+      onClick={handleClick}
+    >
+      <span className="size-fit text-sm font-normal">
         {product.description}
       </span>
-      <div className="mt-auto flex w-full items-center justify-between">
-        <span className="text-sm font-semibold text-neutral-800">
-          {product.price.toFixed(2).replace('.', ',')}
+      {isSelected && selectedItem && (
+        <span className="text-xs font-semibold">
+          {selectedItem.quantity}x
         </span>
-        <button 
-          className="flex size-7 items-center justify-center rounded-full bg-white p-0 text-neutral-800 transition-transform duration-75 ease-out active:scale-90"
-          onClick={() => addProduct(product)}
-        >
-          <Plus size={14} strokeWidth={2} />
-        </button>
-      </div>
+      )}
     </div>
   )
 }

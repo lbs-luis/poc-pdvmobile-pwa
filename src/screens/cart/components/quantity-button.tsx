@@ -1,7 +1,7 @@
 import { ChevronRight, Trash } from 'lucide-react'
 import type { ComponentProps } from 'react'
-import { cn } from '../../../lib/cn'
 import { useCart } from '../../../hooks/useCart'
+import { cn } from '../../../lib/cn'
 import type { CartItem } from '../../../stores/cart-store'
 
 interface QuantityButtonProps extends ComponentProps<'button'> {
@@ -28,11 +28,7 @@ export function QuantityButton({ className, item }: QuantityButtonProps) {
     >
       <Trash size={16} className="mx-auto" onClick={handleSubtract} />
       <span className="mx-auto size-fit">{item.quantity}</span>
-      <ChevronRight
-        size={16}
-        className="mx-auto"
-        onClick={handleAdd}
-      />
+      <ChevronRight size={16} className="mx-auto" onClick={handleAdd} />
     </button>
   )
 }
