@@ -7,7 +7,12 @@ type AmountInputProps = ComponentProps<'input'> & {
   onAmountChange?: (amount: number) => void
 }
 
-export function AmountInput({ className, value, onAmountChange, ...props }: AmountInputProps) {
+export function AmountInput({
+  className,
+  value,
+  onAmountChange,
+  ...props
+}: AmountInputProps) {
   return (
     <div className="relative h-full">
       <div className="flex h-full">
@@ -32,7 +37,7 @@ export function AmountInput({ className, value, onAmountChange, ...props }: Amou
               'pointer-events-none absolute start-1 top-2 z-10 origin-left -translate-y-4.5 scale-75 transform rounded-full bg-white px-2 text-sm text-neutral-500 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4.5 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-neutral-600',
             )}
           >
-            Amount
+            Qtde.
           </label>
         </div>
         <button
