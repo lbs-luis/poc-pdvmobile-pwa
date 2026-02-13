@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { useCartStore } from '../stores/cart-store'
 import type { CartItem } from '../stores/cart-store'
+import { useCartStore } from '../stores/cart-store'
 
 export interface UseCartReturn {
   items: CartItem[]
@@ -22,7 +22,10 @@ export function useCart(): UseCartReturn {
   }, [items])
 
   const totalPrice = useMemo(() => {
-    return items.reduce((total, item) => total + (item.product.price * item.quantity), 0)
+    return items.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0,
+    )
   }, [items])
 
   return {
@@ -31,6 +34,6 @@ export function useCart(): UseCartReturn {
     totalPrice,
     addProduct,
     updateQuantity,
-    removeProduct
+    removeProduct,
   }
 }

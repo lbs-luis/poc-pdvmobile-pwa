@@ -1,7 +1,7 @@
 import { ChevronRight, Tag } from 'lucide-react'
 
 interface CompleteCartButtonProps {
-  total: number
+  total: string
 }
 
 export function CompleteCartButton({ total }: CompleteCartButtonProps) {
