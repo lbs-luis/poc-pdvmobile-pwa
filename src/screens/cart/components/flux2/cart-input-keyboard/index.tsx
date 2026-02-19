@@ -18,6 +18,7 @@ export function CartInputKeyboard() {
   const startYRef = useRef(0)
   const startHeightRef = useRef(MIN_HEIGHT)
   const containerRef = useRef<HTMLDivElement>(null)
+  const lastKeyTimeRef = useRef(0)
 
   const addProduct = useCartStore((state) => state.addProduct)
 
@@ -60,14 +61,18 @@ export function CartInputKeyboard() {
 
   const handleKeyPress = useCallback(
     (key: string) => {
+      const now = Date.now()
+      if (now - lastKeyTimeRef.current < 50) {
+        return
+      }
+      lastKeyTimeRef.current = now
+
       if (key === 'Enter') {
         if (productCode.trim()) {
           const product = findProductById(productCode.trim())
           if (product) {
             const qty = quantity ? parseFloat(quantity.replace(',', '.')) : 1
-            for (let i = 0; i < qty; i++) {
-              addProduct(product)
-            }
+            addProduct(product, qty)
             setQuantity('')
             setProductCode('')
             setPendingQty('')

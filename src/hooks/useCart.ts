@@ -6,7 +6,7 @@ export interface UseCartReturn {
   items: CartItem[]
   totalItems: number
   totalPrice: number
-  addProduct: (product: import('../database').Product) => void
+  addProduct: (product: import('../database').Product, quantity?: number) => void
   updateQuantity: (productId: string, quantity: number) => void
   removeProduct: (productId: string) => void
 }
@@ -22,10 +22,7 @@ export function useCart(): UseCartReturn {
   }, [items])
 
   const totalPrice = useMemo(() => {
-    return items.reduce(
-      (total, item) => total + item.product.price * item.quantity,
-      0,
-    )
+    return items.reduce((total, item) => total + item.total, 0)
   }, [items])
 
   return {
