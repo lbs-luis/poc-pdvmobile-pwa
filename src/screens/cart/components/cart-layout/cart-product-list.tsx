@@ -1,11 +1,11 @@
 import type { ComponentProps } from 'react'
+import { useCart } from '../../../../hooks/useCart'
 import { cn } from '../../../../lib/cn'
 import type { CartItem } from '../../../../stores/cart-store'
-import { useCart } from '../../../../hooks/useCart'
 import { QuantityButton } from '../quantity-button'
 
 const CartProductListHeader = () => (
-  <div className="grid h-10 w-full grid-cols-[2fr_1fr_7rem] items-center gap-4 px-4 py-2">
+  <div className="grid h-10 w-full shrink-0 grid-cols-[2fr_1fr_7rem] items-center gap-4 px-4 py-2">
     <span className="size-fit text-sm font-semibold text-neutral-800 capitalize">
       Produto
     </span>
