@@ -1,39 +1,25 @@
 import type { Product } from '../../../../database'
-import { usePreselectionStore } from '../../../../stores/preselection-store'
+import { useCartStore } from '../../../../stores/cart-store'
 
 interface ProductMeshButtonProps {
   product: Product
 }
 
 export function ProductMeshButton({ product }: ProductMeshButtonProps) {
-  const { addItem, removeItem, items } = usePreselectionStore()
-
-  const isSelected = items.some((item) => item.product.id === product.id)
-  const selectedItem = items.find((item) => item.product.id === product.id)
+  const addProduct = useCartStore((state) => state.addProduct)
 
   const handleClick = () => {
-    if (isSelected) {
-      removeItem(product.id)
-    } else {
-      addItem(product, 1)
-    }
+    addProduct(product, 1)
   }
 
   return (
     <div
-      className={`flex h-26 w-full flex-col items-center justify-center rounded-md p-4 transition duration-150 ease-in-out active:scale-95 ${
-        isSelected
-          ? 'bg-neutral-600 text-white'
-          : 'bg-neutral-200 text-neutral-800 active:bg-neutral-100'
-      }`}
+      className="flex h-26 w-full cursor-pointer flex-col items-center justify-center rounded-md bg-neutral-200 p-4 text-neutral-800 transition duration-150 ease-in-out active:scale-95 active:bg-neutral-100"
       onClick={handleClick}
     >
       <span className="size-fit text-sm font-normal">
         {product.description}
       </span>
-      {isSelected && selectedItem && (
-        <span className="text-xs font-semibold">{selectedItem.quantity}x</span>
-      )}
     </div>
   )
 }
