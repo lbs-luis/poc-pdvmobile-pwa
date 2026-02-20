@@ -1,4 +1,3 @@
-import { useAmount } from '../../../../contexts/amount-context'
 import type { Product } from '../../../../database'
 import { usePreselectionStore } from '../../../../stores/preselection-store'
 
@@ -7,7 +6,6 @@ interface ProductMeshButtonProps {
 }
 
 export function ProductMeshButton({ product }: ProductMeshButtonProps) {
-  const { currentAmount } = useAmount()
   const { addItem, removeItem, items } = usePreselectionStore()
 
   const isSelected = items.some((item) => item.product.id === product.id)
@@ -17,7 +15,7 @@ export function ProductMeshButton({ product }: ProductMeshButtonProps) {
     if (isSelected) {
       removeItem(product.id)
     } else {
-      addItem(product, currentAmount)
+      addItem(product, 1)
     }
   }
 
