@@ -3,13 +3,15 @@ import { useCartStore } from '../../../../stores/cart-store'
 
 interface ProductMeshButtonProps {
   product: Product
+  close: () => void
 }
 
-export function ProductMeshButton({ product }: ProductMeshButtonProps) {
+export function ProductMeshButton({ product, close }: ProductMeshButtonProps) {
   const addProduct = useCartStore((state) => state.addProduct)
 
   const handleClick = () => {
     addProduct(product, 1)
+    close()
   }
 
   return (

@@ -21,7 +21,7 @@ function ProductKeyboardContent({
       )}
       style={{ left: !isKeyboardOpen ? '100vw' : '0vw' }}
     >
-      <div className="flex h-fit w-full items-center p-2 shadow-lg shadow-black/10">
+      <div className="flex h-fit w-full items-center px-2 py-3 shadow-lg shadow-black/10">
         <button className="size-fit shrink-0" onClick={close}>
           <ChevronLeft size={24} />
         </button>
@@ -29,7 +29,7 @@ function ProductKeyboardContent({
         <div className="size-6 bg-transparent" />
       </div>
 
-      <ProductMesh className="pb-28" />
+      <ProductMesh className="pb-28" close={close} />
       <div className="scroll-invisible absolute bottom-0 left-0 flex h-fit w-full min-w-0 gap-4 overflow-x-auto bg-white px-4 py-6">
         {Array.from({ length: 10 }).map((_, i) => (
           <div

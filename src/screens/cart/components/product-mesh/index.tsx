@@ -2,8 +2,10 @@ import type { ComponentProps } from 'react'
 import { products } from '../../../../database'
 import { cn } from '../../../../lib/cn'
 import { ProductMeshButton } from './product-mesh-button'
-
-export function ProductMesh({ className }: ComponentProps<'div'>) {
+interface ProductMeshProps extends ComponentProps<'div'> {
+  close: () => void
+}
+export function ProductMesh({ className, close }: ProductMeshProps) {
   return (
     <div
       className={cn(
@@ -12,7 +14,7 @@ export function ProductMesh({ className }: ComponentProps<'div'>) {
       )}
     >
       {products.map((product) => (
-        <ProductMeshButton key={product.id} product={product} />
+        <ProductMeshButton key={product.id} product={product} close={close} />
       ))}
     </div>
   )
