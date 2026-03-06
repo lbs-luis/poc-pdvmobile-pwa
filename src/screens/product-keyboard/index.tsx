@@ -1,25 +1,19 @@
 import { ChevronLeft } from 'lucide-react'
-import type { ComponentProps } from 'react'
-import { cn } from '../../../../lib/cn'
-import { ProductMesh } from '../product-mesh'
+import { cn } from '../../lib/cn'
+import { ProductMesh } from './product-mesh'
 
-interface ProductKeyboardProps extends ComponentProps<'div'> {
-  isKeyboardOpen: boolean
+interface ProductKeyboardProps {
+  isOpen: boolean
   close: () => void
 }
 
-function ProductKeyboardContent({
-  className,
-  close,
-  isKeyboardOpen,
-}: ProductKeyboardProps) {
+export function ProductKeyboard({ isOpen, close }: ProductKeyboardProps) {
   return (
     <div
       className={cn(
-        'transition-left absolute top-0 flex h-dvh w-screen flex-col gap-2 bg-white duration-200',
-        className,
+        'fixed inset-0 z-50 flex h-dvh w-screen flex-col gap-2 bg-white transition-transform duration-300 ease-out',
       )}
-      style={{ left: !isKeyboardOpen ? '100vw' : '0vw' }}
+      style={{ transform: isOpen ? 'translateY(0)' : 'translateY(100vh)' }}
     >
       <div className="flex h-fit w-full items-center px-2 py-3 shadow-lg shadow-black/10">
         <button className="size-fit shrink-0" onClick={close}>
@@ -30,6 +24,7 @@ function ProductKeyboardContent({
       </div>
 
       <ProductMesh className="pb-28" close={close} />
+
       <div className="scroll-invisible absolute bottom-0 left-0 flex h-fit w-full min-w-0 gap-4 overflow-x-auto bg-white px-4 py-6">
         {Array.from({ length: 10 }).map((_, i) => (
           <div
@@ -45,8 +40,4 @@ function ProductKeyboardContent({
       </div>
     </div>
   )
-}
-
-export function ProductKeyboard(props: ProductKeyboardProps) {
-  return <ProductKeyboardContent {...props} />
 }

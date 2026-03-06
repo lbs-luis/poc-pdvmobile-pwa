@@ -1,5 +1,5 @@
-import type { Product } from '../../../../database'
-import { useCartStore } from '../../../../stores/cart-store'
+import type { Product } from '../../../database'
+import { useCartStore } from '../../../stores/cart-store'
 
 interface ProductMeshButtonProps {
   product: Product

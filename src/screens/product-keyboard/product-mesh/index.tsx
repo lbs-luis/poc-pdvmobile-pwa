@@ -1,10 +1,12 @@
 import type { ComponentProps } from 'react'
-import { products } from '../../../../database'
-import { cn } from '../../../../lib/cn'
+import { products } from '../../../database'
+import { cn } from '../../../lib/cn'
 import { ProductMeshButton } from './product-mesh-button'
+
 interface ProductMeshProps extends ComponentProps<'div'> {
   close: () => void
 }
+
 export function ProductMesh({ className, close }: ProductMeshProps) {
   return (
     <div

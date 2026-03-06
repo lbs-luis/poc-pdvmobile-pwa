@@ -1,5 +1,5 @@
 import type { ComponentProps, ReactElement } from 'react'
-import { cn } from '../../../../../lib/cn'
+import { cn } from '../../../../lib/cn'
 
 interface KeyboardButtonProps extends ComponentProps<'button'> {
   label?: string

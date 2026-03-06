@@ -1,23 +1,27 @@
 import { useState } from 'react'
 
 import { useCart } from '../../hooks/useCart'
+import { ProductKeyboard } from '../product-keyboard'
 import { CartFooter } from './components/cart-layout/cart-footer'
 import { CartHeader } from './components/cart-layout/cart-header'
 import { CartProductList } from './components/cart-layout/cart-product-list'
-import { CACamera } from './components/flux2/cart-action-buttons/ca-camera'
-import { CAKeyboard } from './components/flux2/cart-action-buttons/ca-keyboard'
-import { CASearch } from './components/flux2/cart-action-buttons/ca-search'
-import { CartInputKeyboard } from './components/flux2/cart-input-keyboard'
-import { CartItemCounter } from './components/flux2/cart-item-counter'
-import { CompleteCartButton } from './components/flux2/complete-cart-button'
-import { ProductKeyboard } from './components/product-keyboard'
+import { CaCamera } from './components/action-buttons/ca-camera'
+import { CaKeyboard } from './components/action-buttons/ca-keyboard'
+import { CaSearch } from './components/action-buttons/ca-search'
+import { CartInputKeyboard } from './components/cart-input-keyboard'
+import { CartItemCounter } from './components/cart-item-counter'
+import { CompleteCartButton } from './components/complete-cart-button'
 
 export default function CartScreen() {
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
+  const [isProductKeyboardOpen, setIsProductKeyboardOpen] = useState(false)
   const { totalItems, totalPrice } = useCart()
 
-  function handleToggleKeyboardOpen() {
-    setIsKeyboardOpen(!isKeyboardOpen)
+  const handleOpenProductKeyboard = () => {
+    setIsProductKeyboardOpen(true)
+  }
+
+  const handleCloseProductKeyboard = () => {
+    setIsProductKeyboardOpen(false)
   }
 
   const displayPrice = totalPrice.toFixed(2).replace('.', ',')
@@ -32,15 +36,15 @@ export default function CartScreen() {
       </div>
       <CartFooter className="mt-4">
         <div className="flex h-fit w-full flex-row justify-between px-10">
-          <CAKeyboard onAction={handleToggleKeyboardOpen} />
-          <CACamera />
-          <CASearch />
+          <CaKeyboard onAction={handleOpenProductKeyboard} />
+          <CaCamera />
+          <CaSearch />
         </div>
         <CompleteCartButton total={displayPrice} />
       </CartFooter>
       <ProductKeyboard
-        isKeyboardOpen={isKeyboardOpen}
-        close={handleToggleKeyboardOpen}
+        isOpen={isProductKeyboardOpen}
+        close={handleCloseProductKeyboard}
       />
     </>
   )

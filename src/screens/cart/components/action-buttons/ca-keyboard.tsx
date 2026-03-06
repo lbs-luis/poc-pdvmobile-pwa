@@ -1,6 +1,6 @@
 import { Keyboard } from 'lucide-react'
 
-export function CAKeyboard({ onAction }: { onAction: () => void }) {
+export function CaKeyboard({ onAction }: { onAction: () => void }) {
   return (
     <button
       onClick={onAction}

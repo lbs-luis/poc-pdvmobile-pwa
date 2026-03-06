@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
-import { useCartStore } from '../../../../../stores/cart-store'
-import { findProductById } from '../../../../../utils/productFinder'
+import { useCartStore } from '../../../../stores/cart-store'
+import { findProductById } from '../../../../utils/productFinder'
 import { CartKeyboard } from './cart-keyboard'
 
 const MIN_HEIGHT = 90
