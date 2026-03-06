@@ -4,13 +4,15 @@ import { findProductById } from '../../../../utils/productFinder'
 import { CartKeyboard } from './cart-keyboard'
 
 const MIN_HEIGHT = 90
-const MAX_HEIGHT = 394
+const MAX_HEIGHT = 333
 
 export function CartInputKeyboard() {
   const [isOpen, setIsOpen] = useState(false)
-  const [quantity, setQuantity] = useState('')
+  const [quantity, setQuantity] = useState('1')
   const [productCode, setProductCode] = useState('')
-  const [pendingQty, setPendingQty] = useState('')
+  const [focusedField, setFocusedField] = useState<
+    'quantity' | 'product' | null
+  >(null)
 
   const [isDragging, setIsDragging] = useState(false)
   const [currentHeight, setCurrentHeight] = useState(MIN_HEIGHT)
@@ -18,24 +20,33 @@ export function CartInputKeyboard() {
   const startYRef = useRef(0)
   const startHeightRef = useRef(MIN_HEIGHT)
   const containerRef = useRef<HTMLDivElement>(null)
-  const lastKeyTimeRef = useRef(0)
 
   const addProduct = useCartStore((state) => state.addProduct)
 
-  const handleDragStart = useCallback(
-    (e: React.TouchEvent | React.MouseEvent) => {
-      setIsDragging(true)
-      startYRef.current = 'touches' in e ? e.touches[0].clientY : e.clientY
-      startHeightRef.current = containerRef.current?.offsetHeight || MIN_HEIGHT
-    },
-    [],
-  )
+  const expandKeyboard = useCallback(() => {
+    setIsOpen(true)
+  }, [])
+
+  const handleQuantityTouch = useCallback(() => {
+    setFocusedField('quantity')
+    expandKeyboard()
+  }, [expandKeyboard])
+
+  const handleProductTouch = useCallback(() => {
+    setFocusedField('product')
+    expandKeyboard()
+  }, [expandKeyboard])
+
+  const handleDragStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true)
+    startYRef.current = e.touches[0].clientY
+    startHeightRef.current = containerRef.current?.offsetHeight || MIN_HEIGHT
+  }, [])
 
   const handleDragMove = useCallback(
-    (e: React.TouchEvent | React.MouseEvent) => {
+    (e: React.TouchEvent) => {
       if (!isDragging) return
-
-      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY
+      const currentY = e.touches[0].clientY
       const diff = startYRef.current - currentY
       const newHeight = Math.max(
         MIN_HEIGHT,
@@ -48,10 +59,8 @@ export function CartInputKeyboard() {
 
   const handleDragEnd = useCallback(() => {
     if (!isDragging) return
-
     setIsDragging(false)
     const threshold = (MAX_HEIGHT + MIN_HEIGHT) / 2
-
     if (currentHeight > threshold) {
       setIsOpen(true)
     } else {
@@ -61,66 +70,78 @@ export function CartInputKeyboard() {
 
   const handleKeyPress = useCallback(
     (key: string) => {
-      const now = Date.now()
-      if (now - lastKeyTimeRef.current < 50) {
-        return
-      }
-      lastKeyTimeRef.current = now
-
       if (key === 'Enter') {
-        if (productCode.trim()) {
-          const product = findProductById(productCode.trim())
-          if (product) {
-            const qty = quantity ? parseFloat(quantity.replace(',', '.')) : 1
-            addProduct(product, qty)
-            setQuantity('')
-            setProductCode('')
-            setPendingQty('')
-          }
+        if (focusedField === 'quantity') {
+          setFocusedField('product')
+          return
+        }
+
+        if (focusedField === 'product') {
+          setProductCode((prevCode) => {
+            const trimmed = prevCode.trim()
+            if (!trimmed) return prevCode
+
+            setQuantity((prevQty) => {
+              const qty = parseInt(prevQty)
+
+              if (!prevQty || qty === 0) {
+                setFocusedField('quantity')
+                return prevQty
+              }
+
+              const product = findProductById(trimmed)
+              if (product) {
+                addProduct(product, qty)
+                setFocusedField('quantity')
+                return '1'
+              }
+
+              return prevQty
+            })
+
+            return ''
+          })
         }
         return
       }
 
-      if (
-        key === '0' ||
-        key === '1' ||
-        key === '2' ||
-        key === '3' ||
-        key === '4' ||
-        key === '5' ||
-        key === '6' ||
-        key === '7' ||
-        key === '8' ||
-        key === '9'
-      ) {
-        setProductCode((prev) => prev + key)
-        setPendingQty((prev) => prev + key)
+      const isDigit = key >= '0' && key <= '9'
+
+      if (isDigit) {
+        if (focusedField === 'quantity') {
+          setQuantity((prev) => {
+            if (prev === '0') return key
+            return prev + key
+          })
+        } else if (focusedField === 'product') {
+          setProductCode((prev) => prev + key)
+        }
         return
       }
 
       if (key === ',') {
-        setQuantity((prev) => prev + key)
         return
       }
 
       if (key === 'X') {
-        if (pendingQty) {
-          setQuantity(pendingQty)
+        if (focusedField === 'quantity') {
+          setQuantity('')
+        } else if (focusedField === 'product') {
           setProductCode('')
-          setPendingQty('')
         }
         return
       }
 
       if (key === 'Backspace') {
-        if (productCode.length > 0) {
+        if (focusedField === 'quantity') {
+          setQuantity((prev) => prev.slice(0, -1))
+        } else if (focusedField === 'product') {
           setProductCode((prev) => prev.slice(0, -1))
-          setPendingQty((prev) => prev.slice(0, -1))
         }
         return
       }
     },
-    [quantity, productCode, pendingQty, addProduct],
+    [focusedField, addProduct],
   )
 
   const displayHeight = isDragging
@@ -132,58 +153,52 @@ export function CartInputKeyboard() {
   return (
     <div
       ref={containerRef}
-      className="flex w-full flex-col overflow-hidden rounded-md bg-slate-200 p-2 pt-0 shadow-md/50 shadow"
+      className="flex w-full flex-col overflow-hidden rounded-2xl bg-slate-200"
       style={{
         height: displayHeight,
-        paddingBottom: !isOpen && !isDragging ? '1rem' : undefined,
         transition: isDragging ? 'none' : 'height 0.3s ease-out',
       }}
     >
       <div
         id="keyboard-drag-area"
-        className="flex h-fit w-full cursor-grab active:cursor-grabbing"
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
+        className="flex h-fit w-full cursor-grab items-center justify-center py-2 active:cursor-grabbing"
         onTouchStart={handleDragStart}
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
       >
-        <div className="pointer-events-none mx-auto mt-2 h-1.5 w-26 rounded-full bg-slate-400" />
+        <div className="h-1 w-10 rounded-full bg-[#c4c6cf]" />
       </div>
-      <div className="mt-4 grid w-full shrink-0 grid-cols-[1fr_2fr] gap-2 px-2">
-        <div className="flex h-fit w-full flex-col rounded-md border border-neutral-500 bg-slate-50 px-2 py-1.5">
-          <label
-            htmlFor="keyboard-input-number"
-            className="flex text-xs font-normal text-neutral-500"
-          >
-            Quantidade
-          </label>
-          <input
-            id="keyboard-input-number"
-            type="text"
-            readOnly
-            value={quantity}
-            className="pointer-events-none size-full appearance-none text-sm font-normal text-slate-950"
-          />
+
+      <div className="grid w-full shrink-0 grid-cols-[1fr_2fr] gap-2 px-4">
+        <div
+          onTouchEnd={handleQuantityTouch}
+          className={`flex h-14 cursor-pointer flex-col justify-center rounded-lg border bg-white px-3 py-1.5 ${
+            focusedField === 'quantity'
+              ? 'border-[#4f46e5]'
+              : 'border-[#dde0e8]'
+          }`}
+        >
+          <label className="text-[10px] text-[#8a8fa8]">Quantidade</label>
+          <span className="min-h-[22.5px] text-[15px] font-bold text-[#1a1a2e]">
+            {quantity}
+          </span>
         </div>
-        <div className="flex h-fit w-full flex-col rounded-md border border-neutral-500 bg-slate-50 px-2 py-1.5">
-          <label
-            htmlFor="keyboard-input-product"
-            className="flex text-xs font-normal text-neutral-500"
-          >
-            Produto (Código,EAN, Kits,)
+
+        <div
+          onTouchEnd={handleProductTouch}
+          className={`flex h-14 cursor-pointer flex-col justify-center rounded-lg border bg-white px-3 py-1.5 ${
+            focusedField === 'product' ? 'border-[#4f46e5]' : 'border-[#dde0e8]'
+          }`}
+        >
+          <label className="text-[10px] text-[#8a8fa8]">
+            Produto (Código, EAN, Kits,)
           </label>
-          <input
-            id="keyboard-input-product"
-            type="text"
-            readOnly
-            value={productCode}
-            className="pointer-events-none size-full appearance-none text-sm font-normal text-slate-950"
-          />
+          <span className="min-h-[22.5px] text-[15px] font-bold text-[#1a1a2e]">
+            {productCode}
+          </span>
         </div>
       </div>
+
       <CartKeyboard onKeyPress={handleKeyPress} />
     </div>
   )

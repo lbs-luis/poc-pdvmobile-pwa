@@ -16,12 +16,12 @@ export function ProductMeshButton({ product, close }: ProductMeshButtonProps) {
 
   return (
     <div
-      className="flex h-26 w-full cursor-pointer flex-col items-center justify-center rounded-md bg-neutral-200 p-4 text-neutral-800 transition duration-150 ease-in-out active:scale-95 active:bg-neutral-100"
+      className="flex h-24 w-full cursor-pointer flex-col items-center justify-center rounded-xl p-2 transition duration-150 ease-in-out active:scale-95"
+      style={{ backgroundColor: product.color }}
       onClick={handleClick}
     >
-      <span className="size-fit text-sm font-normal">
-        {product.description}
-      </span>
+      <span className="text-sm font-medium text-neutral-800">{product.description}</span>
+      {product.weight && <span className="text-xs text-neutral-600">{product.weight}</span>}
     </div>
   )
 }

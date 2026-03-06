@@ -5,7 +5,7 @@ export function CartFooter({ children, className }: ComponentProps<'footer'>) {
   return (
     <footer
       className={cn(
-        'gradient-fade-white flex w-full flex-col gap-4 pb-4',
+        'gradient-fade-white mt-4 flex w-full flex-col gap-4 pb-4',
         className,
       )}
     >

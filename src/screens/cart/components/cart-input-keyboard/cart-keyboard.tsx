@@ -6,38 +6,38 @@ interface CartKeyboardProps {
 }
 
 export function CartKeyboard({ onKeyPress }: CartKeyboardProps) {
-  const handleClick = (key: string) => (e: React.MouseEvent) => {
+  const handleTouch = (key: string) => (e: React.TouchEvent) => {
     e.preventDefault()
     onKeyPress(key)
   }
 
   return (
-    <div className="m-auto mt-4 grid h-fit w-full grid-cols-4 grid-rows-4 gap-[0.451rem] px-2">
-      <KeyboardButton label="7" onClick={handleClick('7')} />
-      <KeyboardButton label="8" onClick={handleClick('8')} />
-      <KeyboardButton label="9" onClick={handleClick('9')} />
+    <div className="mt-4 grid h-fit w-full grid-cols-4 gap-1.5 px-4">
+      <KeyboardButton label="7" onTouchEnd={handleTouch('7')} />
+      <KeyboardButton label="8" onTouchEnd={handleTouch('8')} />
+      <KeyboardButton label="9" onTouchEnd={handleTouch('9')} />
       <KeyboardButton
         icon={<X className="w-[1.609rem]" />}
-        onClick={handleClick('X')}
+        onTouchEnd={handleTouch('X')}
       />
-      <KeyboardButton label="4" onClick={handleClick('4')} />
-      <KeyboardButton label="5" onClick={handleClick('5')} />
-      <KeyboardButton label="6" onClick={handleClick('6')} />
+      <KeyboardButton label="4" onTouchEnd={handleTouch('4')} />
+      <KeyboardButton label="5" onTouchEnd={handleTouch('5')} />
+      <KeyboardButton label="6" onTouchEnd={handleTouch('6')} />
       <KeyboardButton
         icon={<MoveLeft className="w-[1.609rem]" />}
-        onClick={handleClick('Backspace')}
+        onTouchEnd={handleTouch('Backspace')}
       />
-      <KeyboardButton label="1" onClick={handleClick('1')} />
-      <KeyboardButton label="2" onClick={handleClick('2')} />
-      <KeyboardButton label="3" onClick={handleClick('3')} />
+      <KeyboardButton label="1" onTouchEnd={handleTouch('1')} />
+      <KeyboardButton label="2" onTouchEnd={handleTouch('2')} />
+      <KeyboardButton label="3" onTouchEnd={handleTouch('3')} />
       <KeyboardButton
         label="Enter"
-        className="row-span-2 items-end"
-        onClick={handleClick('Enter')}
+        className="row-span-2"
+        onTouchEnd={handleTouch('Enter')}
       />
-      <KeyboardButton label="KIT" className="bg-blue-800" />
-      <KeyboardButton label="0" onClick={handleClick('0')} />
-      <KeyboardButton label="," onClick={handleClick(',')} />
+      <KeyboardButton label="KIT" />
+      <KeyboardButton label="0" onTouchEnd={handleTouch('0')} />
+      <KeyboardButton label="," onTouchEnd={handleTouch(',')} />
     </div>
   )
 }
