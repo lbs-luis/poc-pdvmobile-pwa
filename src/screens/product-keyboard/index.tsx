@@ -19,7 +19,7 @@ export function ProductKeyboard({ isOpen, close }: ProductKeyboardProps) {
         <button className="size-fit shrink-0" onClick={close}>
           <ChevronLeft size={24} />
         </button>
-        <p className="mx-auto flex text-sm font-medium">Teclado Produtos</p>
+        <p className="mx-auto flex text-sm font-medium">Teclado de Produtos</p>
         <div className="size-6 bg-transparent" />
       </div>
 
