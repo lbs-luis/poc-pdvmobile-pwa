@@ -11,7 +11,7 @@ import { CartItemCounter } from './components/cart-item-counter'
 import { CartFooter } from './components/cart-layout/cart-footer'
 import { CartHeader } from './components/cart-layout/cart-header'
 import { CartProductList } from './components/cart-layout/cart-product-list'
-import { CompleteCartButton } from './components/complete-cart-button'
+import { CartTotalizer } from './components/complete-cart-button'
 
 export default function CartScreen() {
   const navigate = useNavigate()
@@ -46,7 +46,7 @@ export default function CartScreen() {
           <CaCamera />
           <CaSearch onClick={handleSearchClick} />
         </div>
-        <CompleteCartButton total={displayPrice} />
+        <CartTotalizer total={displayPrice} />
       </CartFooter>
       <ProductKeyboard
         isOpen={isProductKeyboardOpen}

@@ -15,11 +15,11 @@ export function ProductKeyboard({ isOpen, close }: ProductKeyboardProps) {
       )}
       style={{ transform: isOpen ? 'translateY(0)' : 'translateY(100vh)' }}
     >
-      <div className="flex h-fit w-full items-center bg-white px-2 py-3 shadow-md">
+      <div className="flex h-fit w-full items-center border-b border-neutral-200 bg-white px-2 py-3">
         <button className="size-fit shrink-0" onClick={close}>
           <ChevronLeft size={24} />
         </button>
-        <p className="mx-auto flex text-base font-bold">Teclado Produtos</p>
+        <p className="mx-auto flex text-sm font-medium">Teclado Produtos</p>
         <div className="size-6 bg-transparent" />
       </div>
 
